@@ -1,0 +1,264 @@
+@startuml
+
+abstract class Carte {
+    - int valeur
+    - Couleur couleur
+    - Uno uno
+
+    + Carte(int, Couleur)
+    + Carte(Uno, Couleur)
+    + Carte(Uno)
+    + Carte(Uno, int, Couleur)
+
+    + int getValeur()
+    + void setValeur(int)
+    + Couleur getCouleur()
+    + void setCouleur(Couleur)
+
+    + String toString()
+
+    + {abstract}boolean peutEtreRecouvertePar(Carte)
+    + boolean estSansCouleur()
+    + boolean estDeCouleurCompatibleAvec(Carte)
+    + {abstract}boolean peutEtrePoseeSur(Chiffre)
+    + {abstract}boolean peutEtrePoseeSur(Plus2)
+    + {abstract}boolean peutEtrePoseeSur(ChangementDeSens)
+    + {abstract}boolean peutEtrePoseeSur(PasseTonTour)
+    + {abstract}boolean peutEtrePoseeSur(Plus4)
+    + {abstract}boolean peutEtrePoseeSur(Joker)
+    + {abstract} appliquerEffet()
+}
+
+class PaquetDeCartes implements Iterable {
+    - ArrayList<Carte> deck
+
+    + PaquetDeCartes()
+
+    + void ajouter(Carte...)
+    + void ajouter(PaquetDeCartes)
+
+    + boolean isEqual(PaquetDeCartes)
+
+    + ArrayList<Carte> getDeck()
+    + int getNombreDeCartes()
+    + boolean estVide()
+    + void melanger()
+    + void retourner()
+    + void enlever(Carte)
+    + int getValeur()
+    + Carte getSommet()
+    + Carte piocher()
+    + Carte getCarte(int)
+    + void ecrire(String)
+    + void lire(String)
+    + String toString()
+}
+
+class ErreurFichier {
+}
+
+class ChangementDeSens {
+    + ChangementDeSens(Couleur)
+    + ChangementDeSens(Uno, Couleur)
+    + boolean peutEtreRecouvertePar(Carte)
+    + boolean peutEtrePoseeSur(Chiffre)
+    + boolean peutEtrePoseeSur(Plus2)
+    + boolean peutEtrePoseeSur(ChangementDeSens)
+    + boolean peutEtrePoseeSur(PasseTonTour)
+    + boolean peutEtrePoseeSur(Plus4)
+    + boolean peutEtrePoseeSur(Joker)
+    + void appliquerEffet()
+}
+
+class Chiffre {
+    + Chiffre(int, Couleur)
+    + Chiffre(Uno, Valeur, Couleur)
+    + boolean peutEtreRecouvertePar(Carte)
+    + boolean peutEtrePoseeSur(Chiffre)
+    + boolean peutEtrePoseeSur(Plus2)
+    + boolean peutEtrePoseeSur(ChangementDeSens)
+    + boolean peutEtrePoseeSur(PasseTonTour)
+    + boolean peutEtrePoseeSur(Plus4)
+    + boolean peutEtrePoseeSur(Joker)
+    + void appliquerEffet()
+}
+
+class Plus4 {
+    + Plus4(Uno)
+    + Plus4()
+    + boolean peutEtreRecouvertePar(Carte)
+    + boolean peutEtrePoseeSur(Chiffre)
+    + boolean peutEtrePoseeSur(Plus2)
+    + boolean peutEtrePoseeSur(ChangementDeSens)
+    + boolean peutEtrePoseeSur(PasseTonTour)
+    + boolean peutEtrePoseeSur(Plus4)
+    + boolean peutEtrePoseeSur(Joker)
+    + void appliquerEffet()
+}
+
+class Plus2 {
+    + Plus2(Couleur)
+    + Plus2(Uno, Couleur)
+    + boolean peutEtreRecouvertePar(Carte)
+    + boolean peutEtrePoseeSur(Chiffre)
+    + boolean peutEtrePoseeSur(Plus2)
+    + boolean peutEtrePoseeSur(ChangementDeSens)
+    + boolean peutEtrePoseeSur(PasseTonTour)
+    + boolean peutEtrePoseeSur(Plus4)
+    + boolean peutEtrePoseeSur(Joker)
+    + void appliquerEffet()
+}
+
+class Joker {
+    + Joker()
+    + Joker(Uno)
+    + boolean peutEtreRecouvertePar(Carte)
+    + boolean peutEtrePoseeSur(Chiffre)
+    + boolean peutEtrePoseeSur(Plus2)
+    + boolean peutEtrePoseeSur(ChangementDeSens)
+    + boolean peutEtrePoseeSur(PasseTonTour)
+    + boolean peutEtrePoseeSur(Plus4)
+    + boolean peutEtrePoseeSur(Joker)
+    + void appliquerEffet()
+}
+
+class PasseTonTour {
+    + PasseTonTour(Couleur)
+    + PasseTonTour(Uno, Couleur)
+    + boolean peutEtreRecouvertePar(Carte)
+    + boolean peutEtrePoseeSur(Chiffre)
+    + boolean peutEtrePoseeSur(Plus2)
+    + boolean peutEtrePoseeSur(ChangementDeSens)
+    + boolean peutEtrePoseeSur(PasseTonTour)
+    + boolean peutEtrePoseeSur(Plus4)
+    + boolean peutEtrePoseeSur(Joker)
+    + void appliquerEffet()
+}
+
+class Uno {
+    - bool sens
+    - int actualPlayer
+
+    + Uno()
+    + Uno(boolean)
+
+    + void setDLC(DialogueLigneDeCommande)
+    + State getState()
+    + void setState(State)
+    + void play(String)
+    + void ajouterTalon(Carte)
+    + void draw()
+    + Carte getTopCard()
+    + int getSens()
+    + void initialize(int)
+    + Joueur getActualPlayer()
+    + boolean isGameOver()
+    + DialogueLigneDeCommande getDlc()
+    + void inverserSens()
+    + void nextPlayer()
+    + void deal()
+    + void createPlayers()
+    + PaquetDeCartes getPioche()
+    + void nouvellePioche()
+}
+
+abstract class Joueur
+{
+    - String nom
+    - int typeDeJoueur
+
+    + Joueur(Uno)
+    + {abstract} void jouer()
+    + void pioche(Carte)
+    + int getTypeDeJoueur()
+    + PaquetDeCartes getHand()
+    + void setNom(String)
+    + String getNom()
+    + String toString()
+}
+
+class JoueurHumain extends Joueur
+{
+    - void jouerPioche()
+    - void jouerCarteSurTalon(Carte)
+    - boolean peutJouerCarte(Carte)
+    - void jouerCarte(String)
+    - void validerEtJouerCarte(Carte)
+    - Carte obtenirCarteSelonPattern(Matcher)
+}
+
+class Bot extends Joueur
+{
+}
+
+class FabriqueCartes {
+- {static} FabriqueCartes instance
+- PaquetDeCartes deck
++ {static} FabriqueCartes getInstance()
++ PaquetDeCartes getPaquet32()
++ PaquetDeCartes get1Vert()
++ PaquetDeCartes createUnoDeck()
++ PaquetDeCartes getPaquetVide()
+}
+
+enum Couleur {
+    +  BLEU
+    +  ROUGE
+    +  JAUNE
+    +  VERT
+    ~ String fr
+    + String getNom()
+    + String toString()
+    + Couleur getCouleurParNom(String)
+    + Couleur getRandom()
+}
+
+enum State {
+    + GameOver
+    + Idle
+    + Bot
+    + Joueur
+}
+
+class DialogueLigneDeCommande {
+    - boolean debug
+
+    + DialogueLigneDeCommande(Uno u)
+    + DialogueLigneDeCommande(Uno, boolean)
+
+    + void react()
+    + void printDebugInfos()
+    + void printWhoPlay()
+    + void printTopCard()
+    + void printGameOver(Joueur)
+    + int promptNumberOfBots()
+    + void closeScanner()
+    + String promptName()
+    + void printPlayerHand()
+    + String getPlayerInput(String)
+}
+
+DialogueLigneDeCommande "1" --- "1" Uno
+DialogueLigneDeCommande --- "1" Scanner
+
+Exception <|-- CoupIncorrect
+Exception <|-- ErreurFichier
+
+Uno  --- "*" Joueur
+Uno --- "2" PaquetDeCartes
+Uno --- "1" State
+
+PaquetDeCartes "1" --- FabriqueCartes
+PaquetDeCartes - "*" Carte
+PaquetDeCartes "1" - Joueur
+
+Carte "1" --- Couleur
+Carte <|-- ChangementDeSens
+Carte <|-- Chiffre
+Carte <|-- Plus4
+Carte <|-- Plus2
+Carte <|-- Joker
+Carte <|-- PasseTonTour
+Carte "1" --- Uno
+
+@enduml

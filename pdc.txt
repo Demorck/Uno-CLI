@@ -1,0 +1,7 @@
+Chiffre6 Jaune
+Chiffre8 Rouge
+Chiffre3 Bleu
+Chiffre1 Vert
+Joker50 Noir
+Plus450 Noir
+Plus220 Jaune

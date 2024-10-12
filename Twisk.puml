@@ -1,0 +1,73 @@
+@startuml
+
+class Monde implements Iterable
+{
+    + Monde()
+    + void aCommeEntrees(Etape... e)
+    + void aCommeSorties(Etape... e)
+    + void ajouter(Etape... etapes)
+    + int nbEtapes()
+    + int nbGuichets()
+}
+
+abstract class Etape implements Iterable
+{
+    - String nom
+    + Etape(String nom)
+    + void ajouterSuccesseur(Etape... e)
+    + boolean estUneActivite()
+    + boolean estUnGuichet()
+}
+
+class SasEntree extends Activite
+{
+    + SasEntree()
+}
+
+class SasSortie extends Activite
+{
+    + SasSortie()
+}
+
+class Guichet extends Etape
+{
+    - int nbJetons
+    + Guichet(String nom)
+    + Guichet(String nom, int nbJetons)
+    + setNbJetons(int nbJetons)
+    + getNbJetons()
+    + boolean estUnGuichet()
+}
+
+class Activite extends Etape
+{
+    - int temps
+    - int ecartTemps
+    + Activite(String nom)
+    + Activite(String nom, int temps, int ecartTemps)
+    + boolean estUneActivite()
+
+}
+
+class ActiviteRestreinte extends Activite
+{
+    + ActiviteRestreinte(String nom)
+    + ActiviteRestreinte(String nom, int temps, int ecartTemps)
+}
+
+class GestionnaireEtapes implements Iterable
+{
+    + GestionnaireEtapes()
+    + void ajouter(Etape... etapes)
+    + int nbEtapes()
+}
+
+
+Monde  --- "1" SasEntree
+Monde  --- "1" SasSortie
+Monde --- "1" GestionnaireEtapes
+GestionnaireEtapes "1" --- "*" Etape
+Etape "successeurs" --- "*" Etape
+
+
+@enduml
